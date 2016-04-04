@@ -1,0 +1,21 @@
+RULE create counter for changing sound
+CLASS com.redhat.thermostat.examples.threads.animals.Animal
+METHOD <init>
+IF true
+DO createCounter("set_sound")
+ENDRULE
+
+RULE increment counter for changing sound
+CLASS com.redhat.thermostat.examples.threads.animals.Animal
+METHOD doSound
+IF true
+DO incrementCounter("set_sound")
+ENDRULE
+
+RULE change sound of animal
+CLASS com.redhat.thermostat.examples.threads.animals.Animal
+METHOD doSound
+IF readCounter("set_sound") == 10
+DO traceln("**** setting sound to 'moooh'");
+  $0.sound = "moooh";
+ENDRULE

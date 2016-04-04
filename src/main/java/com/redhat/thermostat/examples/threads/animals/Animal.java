@@ -17,12 +17,16 @@ class Animal extends Thread {
     @Override
     public void run() {
         while (!terminated) {
-            out.println(getName() + " " + sound);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                // ignore
-            }
+            doSound();
+        }
+    }
+
+    private void doSound() {
+        out.println(getName() + " " + sound);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // ignore
         }
     }
     

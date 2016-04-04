@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Usage: APP=<app> run
+
+usage() {
+  cat <<END
+  usage: APP=<app> ./run
+         where <app> is one of: plain, bmj1, bmj2
+END
+  exit 1
+}
+
+if [ "${APP}_" == "_" ]; then
+  usage
+fi
+
+# Cleanup old run output
+rm -f out.log
+
+if [ "${APP}_" == "plain_" ]; then
+  echo "INFO: Running plain test app. Output goes to out.log"
+  java -cp target/byteman-threads-*.jar com.redhat.thermostat.examples.threads.AnimalGame
+elif [ "${APP}_" == "bmj1_" ]; then
+  echo "INFO: Running app with rule rules/threads.btm. Output goes to out.log"
+  bmjava -l rules/threads.btm -cp target/byteman-threads-*.jar -Dorg.jboss.byteman.transform.all com.redhat.thermostat.examples.threads.AnimalGame
+elif [ "${APP}_" == "bmj2_" ]; then
+  echo "INFO: Running app with rule rules/threads_change_sound.btm. Output goes to out.log"
+  bmjava -l rules/threads_change_sound.btm -cp target/byteman-threads-*.jar com.redhat.thermostat.examples.threads.AnimalGame
+else
+  echo "error: Unknown APP '${APP}'" 1>&2
+  exit 1
+fi
