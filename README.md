@@ -15,7 +15,7 @@
 
 ```
   $ mvn package
-  $ run
+  $ ./run
 ```
 
 ## Example Application
